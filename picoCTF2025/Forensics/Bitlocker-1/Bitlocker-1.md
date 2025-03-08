@@ -38,8 +38,8 @@ $bitlocker$3$16$2b71884a0ef66f0b9de049a82a39d15b$1048576$12$00be8a46ead6da010600
 10. **sudo apt update && sudo apt install dislocker**
 11. Create a mount point.
  ```
-mkdir -p /mnt/bitlocker
-mkdir -p /mnt/bitlocker_decrypted
+sudo mkdir -p /mnt/bitlocker
+sudo mkdir -p /mnt/bitlocker_decrypted
  ```
 12. Unlock the BitLocker image using password, **sudo dislocker -r -V bitlocker-1.dd -u -- /mnt/bitlocker** and password will be prompted.
 13. Mount the decrypted partition, **sudo mount -o loop /mnt/bitlocker/dislocker-file /mnt/bitlocker_decrypted**
