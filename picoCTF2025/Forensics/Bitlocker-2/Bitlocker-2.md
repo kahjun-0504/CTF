@@ -38,3 +38,53 @@ python3 -m venv myenv
 ```
 source myenv/bin/activate
 ```
+7. Install pyrcryptodome and distorm3
+```
+pip2 install distorm3 pyrcryptodome
+```
+8. To use Volatility 2, we have to determine the memory dump image profile.
+```
+python2 vol.py -f /home/kali/Downloads/memdump.mem kdbgscan
+```
+9. Then, specify the profile determined using --profile flag.
+```
+python2 vol.py -f /home/kali/Downloads/memdump.mem --profile=Win10x64_19041 -h
+```
+10. Notice that the bitlocker plugin does not come install with Volatility 2, so we have to copy the bitlocker.py file into the volatily plugin path as describe here: _https://github.com/breppo/Volatility-BitLocker_
+11. Else, we may specify the path of our plugin using --plugins flag.
+```
+python2 vol.py --plugins=/home/kali/Downloads/plugins --info | grep bitlocker
+```
+12. Then, dump the potential found FVEKs into path specified using --dislocker flag.
+```
+python2 vol.py -f /home/kali/Downloads/memdump.mem --profile=Win10x64_19041 --plugins=/home/kali/Downloads/plugins bitlocker --dislocker /home/kali/Downloads/dump
+```
+13. The output should look like this:
+```
+[FVEK] Address : 0x8087865bead0
+[FVEK] Cipher  : AES-XTS 128 bit (Win 10+)
+[FVEK] FVEK: 4f79d4a00d5e9b25965b89581a6a599c
+[DISL] FVEK for Dislocker dumped to file: /home/kali/Downloads/dump/0x8087865bead0-Dislocker.fvek
+
+[FVEK] Address : 0x40d857c90
+[FVEK] Cipher  : AES 128-bit (Win 8+)
+[FVEK] FVEK: d40582190eb6f067691120bbbe55e511
+[DISL] FVEK for Dislocker dumped to file: /home/kali/Downloads/dump/0x40d857c90-Dislocker.fvek
+```
+14. The first returned should be the one as the plugin goes from the current Windows versions to the oldest.
+15. Next, create mount points.
+```
+sudo mkdir -p /mnt/bitlocker
+sudo mkdir -p /mnt/bitlocker_decrypted
+```
+16. Unlock the BitLocker image using FVEK. Specify the path of the FVEK obtained in Step 12 and 13 using --fvek flag.
+```
+sudo dislocker-fuse -V bitlocker-2.dd --fvek=/home/kali/Downloads/dump/0x8087865bead0-Dislocker.fvek -- /mnt/bitlocker
+```
+17. Mount the decrypted partition.
+```
+sudo mount -t ntfs-3g /mnt/bitlocker/dislocker-file /mnt/bitlocker_decrypted
+```
+18. _-- /mnt/bitlocker_ defines the output location where Dislocker will create a decrypted virtual drive (dislocker-file).
+19. Get the flag by going to the mount point /mnt/bitlocker_decrypted.
+20. 
