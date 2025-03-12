@@ -51,11 +51,11 @@ python2 vol.py -f /home/kali/Downloads/memdump.mem kdbgscan
 python2 vol.py -f /home/kali/Downloads/memdump.mem --profile=Win10x64_19041 -h
 ```
 10. Notice that the bitlocker plugin does not come install with Volatility 2, so we have to copy the bitlocker.py file into the volatily plugin path as describe here: _https://github.com/breppo/Volatility-BitLocker_
-11. Else, we may specify the path of our plugin using --plugins flag.
+11. Else, we may specify the path of the plugin using --plugins flag if it is placed in different location.
 ```
 python2 vol.py --plugins=/home/kali/Downloads/plugins --info | grep bitlocker
 ```
-12. Then, dump the potential found FVEKs into path specified using --dislocker flag.
+12. Then, dump the potential found FVEKs into a path you defined using --dislocker flag.
 ```
 python2 vol.py -f /home/kali/Downloads/memdump.mem --profile=Win10x64_19041 --plugins=/home/kali/Downloads/plugins bitlocker --dislocker /home/kali/Downloads/dump
 ```
