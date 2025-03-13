@@ -88,3 +88,6 @@ sudo mount -t ntfs-3g /mnt/bitlocker/dislocker-file /mnt/bitlocker_decrypted
 18. _-- /mnt/bitlocker_ defines the output location where Dislocker will create a decrypted virtual drive (dislocker-file).
 19. Get the flag by going to the mount point /mnt/bitlocker_decrypted.
 20. picoCTF{B1tl0ck3r_dr1v3_d3crypt3d_9029ae5b}
+
+
+(p/s: Run Volatility 2 as python2 vol.py instead of just vol.py, otherwise Volatility 2 won't detect the plugin)
